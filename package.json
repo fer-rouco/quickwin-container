@@ -4,7 +4,9 @@
   "homepage": "https://fer-rouco.github.io/quickwin-container/",
   "main": "index.js",
   "scripts": {
-    "deploy": "gh-pages -d dist"
+    "clean": "del /f /s /q dist",
+    "build": "npm run clean && xcopy index.html dist\\ /Y",
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "devDependencies": {
     "gh-pages": "^6.3.0"
