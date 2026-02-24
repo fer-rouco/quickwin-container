@@ -75,5 +75,22 @@
 
             <!-- End page content -->
         </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                // Verificamos si estamos dentro de un iframe
+                if (window.self !== window.top) {
+                    window.parent.postMessage({
+                        type: 'GA_EVENT',
+                        eventName: 'page_view',
+                        params: {
+                            page_title: document.title,
+                            page_location: window.location.href,
+                            page_path: window.location.pathname,
+                            is_iframe: true // Dato extra útil para filtrar en Analytics
+                        }
+                    }, '*'); // Recuerda cambiar '*' por la URL del padre en producción
+                }
+            });
+        </script>
     </body>
 </html>
