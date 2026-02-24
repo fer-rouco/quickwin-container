@@ -17,6 +17,13 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-Z39ED1CN2E'); // Reemplaza con tu ID real
+        </script>
         <style>
             body,
             h1,
@@ -67,24 +74,6 @@
                                 style="width: 100%; height: 800px"
                             >
                                 iFrame konnte nicht geladen werden!
-                                <script>
-                                    document.addEventListener('DOMContentLoaded', () => {
-                                        // Forma más compatible de detectar un iframe
-                                        const isIframe = (window.location !== window.parent.location);
-
-                                        console.log("¿Es iframe?:", isIframe); // Mira esto en la consola
-
-                                        if (isIframe) {
-                                            window.parent.postMessage({
-                                            type: 'GA_EVENT',
-                                            eventName: 'page_view',
-                                            params: { page_path: window.location.pathname }
-                                            }, '*');
-                                        } else {
-                                            console.warn("La app detecta que NO está en un iframe.");
-                                        }
-                                    });
-                                </script>
                             </iframe>
                         </p>
                     </div>
@@ -93,5 +82,24 @@
 
             <!-- End page content -->
         </div>
+        <script>
+            // ESCUCHADOR DE MENSAJES
+            window.addEventListener('message', (event) => {
+                // SEGURIDAD: Verifica que el mensaje venga de donde esperas
+                // if (event.origin !== "https://tu-dominio-del-iframe.com") return;
+
+                // Verificamos si es un mensaje de GA
+                if (event.data && event.data.type === 'GA_EVENT') {
+                    const { eventName, params } = event.data;
+                    
+                    console.log(`Recibido del iframe: ${eventName}`, params);
+
+                    // Ejecutamos el gtag real desde el contexto del padre
+                    if (typeof gtag === 'function') {
+                        gtag('event', eventName, params);
+                    }
+                }
+            });
+        </script>
     </body>
 </html>
