@@ -67,6 +67,24 @@
                                 style="width: 100%; height: 800px"
                             >
                                 iFrame konnte nicht geladen werden!
+                                <script>
+                                    document.addEventListener('DOMContentLoaded', () => {
+                                        // Forma más compatible de detectar un iframe
+                                        const isIframe = (window.location !== window.parent.location);
+
+                                        console.log("¿Es iframe?:", isIframe); // Mira esto en la consola
+
+                                        if (isIframe) {
+                                            window.parent.postMessage({
+                                            type: 'GA_EVENT',
+                                            eventName: 'page_view',
+                                            params: { page_path: window.location.pathname }
+                                            }, '*');
+                                        } else {
+                                            console.warn("La app detecta que NO está en un iframe.");
+                                        }
+                                    });
+                                </script>
                             </iframe>
                         </p>
                     </div>
@@ -75,23 +93,5 @@
 
             <!-- End page content -->
         </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                // Forma más compatible de detectar un iframe
-                const isIframe = (window.location !== window.parent.location);
-
-                console.log("¿Es iframe?:", isIframe); // Mira esto en la consola
-
-                if (isIframe) {
-                    window.parent.postMessage({
-                    type: 'GA_EVENT',
-                    eventName: 'page_view',
-                    params: { page_path: window.location.pathname }
-                    }, '*');
-                } else {
-                    console.warn("La app detecta que NO está en un iframe.");
-                }
-            });
-        </script>
     </body>
 </html>
