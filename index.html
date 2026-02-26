@@ -17,13 +17,6 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
         />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z39ED1CN2E"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-Z39ED1CN2E'); // Reemplaza con tu ID real
-        </script>
         <style>
             body,
             h1,
@@ -82,24 +75,5 @@
 
             <!-- End page content -->
         </div>
-        <script>
-            // ESCUCHADOR DE MENSAJES
-            window.addEventListener('message', (event) => {
-                // SEGURIDAD: Verifica que el mensaje venga de donde esperas
-                // if (event.origin !== "https://tu-dominio-del-iframe.com") return;
-
-                // Verificamos si es un mensaje de GA
-                if (event.data && event.data.type === 'GA_EVENT') {
-                    const { eventName, params } = event.data;
-                    
-                    console.log(`Recibido del iframe: ${eventName}`, params);
-
-                    // Ejecutamos el gtag real desde el contexto del padre
-                    if (typeof gtag === 'function') {
-                        gtag('event', eventName, params);
-                    }
-                }
-            });
-        </script>
     </body>
 </html>
